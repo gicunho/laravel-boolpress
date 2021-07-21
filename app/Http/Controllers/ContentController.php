@@ -16,7 +16,7 @@ class ContentController extends Controller
     {
         //
         $contents = Content::all();
-        return view('guest.products.index', compact('contents'));
+        return view('guest.contents.index', compact('contents'));
     }
 
 
