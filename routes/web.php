@@ -13,6 +13,19 @@ use Illuminate\Support\Facades\Route;
 |
 */
 
+/* Guest Routes */
+
 Route::get('/', function () {
-    return view('welcome');
+    return view('guest.welcome');
+});
+
+Route::resource('contents', ContentController::class)->only(['index', 'show']);
+
+Auth::routes();
+
+/* Admin Routes */
+Route::middleware('auth')->prefix('admin')->namespace('Admin')->name('admin.')->group(function (){
+    Route::get('/', 'HomeController@index')->name('index');
+    Route::resource('contents', ContentController::class);
+
 });
