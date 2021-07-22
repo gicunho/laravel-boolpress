@@ -19,7 +19,11 @@
                     <td>{{$content->name}}</td>    
                     <td>{{$content->description}}</td>    
                     <td>{{$content->price}}</td>
-                    <td>View | Edit | Delete</td>    
+                    <td>View | Edit | Delete
+                        <a href="{{route('admin.contents.show', $content->id)}}">
+                            <i class="fas fa-eye fa-sm fa-fw"></i> View 
+                        </a>
+                    </td>    
                 </tr>
                     @endforeach
             </tbody>

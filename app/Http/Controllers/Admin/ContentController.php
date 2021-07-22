@@ -27,7 +27,7 @@ class ContentController extends Controller
      */
     public function create()
     {
-        //
+        return view('admin.contents.create');
     }
 
     /**
@@ -38,7 +38,13 @@ class ContentController extends Controller
      */
     public function store(Request $request)
     {
-        //
+        $validatedData = $request->validate([
+            'name' => 'required | max:255 | min:5',
+            'description' => '',
+        ]);
+        Content::create($validatedData);
+        return redirect()->back();
+
     }
 
     /**
