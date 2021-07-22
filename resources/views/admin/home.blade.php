@@ -16,6 +16,8 @@
 
                     {{ __('You are logged in!') }}
                     {{ Auth::user()->name}}
+
+                    <a href="{{route('admin.contents.index')}}">Vai al tuo panello di controllo</a>
                 </div>
             </div>
         </div>
