@@ -43,7 +43,7 @@ class ContentController extends Controller
             'description' => '',
         ]);
         Content::create($validatedData);
-        return redirect()->back();
+        return redirect()->route('admin.contents.index');
 
     }
 
@@ -53,9 +53,10 @@ class ContentController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function show($id)
+    public function show(Content $content)
     {
         //
+        return view('admin.contents.show', compact('content'));
     }
 
     /**
@@ -64,9 +65,9 @@ class ContentController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function edit($id)
+    public function edit(Content $content)
     {
-        //
+        return view('admin.contents.edit', compact('content'));
     }
 
     /**
@@ -76,9 +77,14 @@ class ContentController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function update(Request $request, $id)
+    public function update(Request $request, Content $content)
     {
-        //
+        $validatedData = $request->validate([
+            'name' => 'required | max:255 | min:5',
+            'description' => '',
+        ]);
+        $content->update($validatedData);
+        return redirect()->route('admin.contents.index');
     }
 
     /**
@@ -87,8 +93,9 @@ class ContentController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function destroy($id)
+    public function destroy(Content $content)
     {
-        //
+        $content->delete();
+        return redirect()->route('admin.contents.index');
     }
 }
