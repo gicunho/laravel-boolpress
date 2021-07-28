@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers\Admin;
 
+use App\Category;
 use App\Http\Controllers\Controller;
 use App\Content;
 use Illuminate\Http\Request;
@@ -28,7 +29,8 @@ class ContentController extends Controller
      */
     public function create()
     {
-        return view('admin.contents.create');
+        $categories = Category::all();
+        return view('admin.contents.create', compact('categories'));
     }
 
     /**
@@ -42,7 +44,8 @@ class ContentController extends Controller
         $validatedData = $request->validate([
             'name' => 'required | max:255 | min:5',
             'description' => 'required',
-            'image' => 'nullable | image | max:500'
+            'image' => 'nullable | image | max:500',
+            'category_id' => 'nullable | exists:categories,id'
         ]);
         $file_path = Storage::put('content_images', $validatedData['image']);
         $validatedData['image'] = $file_path;
@@ -71,7 +74,8 @@ class ContentController extends Controller
      */
     public function edit(Content $content)
     {
-        return view('admin.contents.edit', compact('content'));
+        $categories = Category::all();
+        return view('admin.contents.edit', compact('content', 'categories'));
     }
 
     /**
@@ -86,7 +90,8 @@ class ContentController extends Controller
         $validatedData = $request->validate([
             'name' => 'required | max:255 | min:5',
             'description' => 'required',
-            'image' => 'nullable | image | max:500'
+            'image' => 'nullable | image | max:500',
+            'category_id' => 'nullable | exists:categories,id'
         ]);
         if(array_key_exists('image', $validatedData)) {
             Storage::delete($validatedData['image']);

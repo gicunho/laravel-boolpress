@@ -28,6 +28,17 @@
             <small id="descriptionHelperr" class="form-text text-muted">Type a description for the post</small>
         </div>  
 
+        <div class="form-group">
+            <label for="category_id">Categories</label>
+            <select class="form-control" name="category_id" id="category_id">
+              <option value="">Select a category</option>
+
+              @foreach ($categories as $category)
+              <option value="{{$category->id}}" {{$category->id == old('category_id', $content->category_id) ? 'selected' : ''}}>{{$category->name}}</option>
+              @endforeach
+            </select>
+          </div>
+
         <button type="submit" class="btn btn-primary">Submit</button>
         </form>
     </div>
