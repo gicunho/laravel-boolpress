@@ -18,6 +18,8 @@ use Illuminate\Support\Facades\Route;
 Route::get('/', function () {
     return view('guest.welcome');
 });
+Route::get('contacts', 'HomeController@contacts')->name('contacts');
+Route::post('contacts', 'HomeController@sendContactForm')->name('contacts.send');
 
 Route::resource('contents', ContentController::class)->only(['index', 'show']);
 

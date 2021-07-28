@@ -37,6 +37,7 @@
                     <!-- Left Side Of Navbar -->
                     <ul class="navbar-nav mr-auto">
                         <li><a href="{{route('contents.index')}}">Posts</a></li>
+                        <li><a href="{{route('contacts')}}">Contacts</a></li>
                     </ul>
 
                     <!-- Right Side Of Navbar -->

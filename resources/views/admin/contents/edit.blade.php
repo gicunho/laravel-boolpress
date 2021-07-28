@@ -4,14 +4,23 @@
     <div class="container">
         <h1>Create a new post</h1>
 
-        <form action="{{route('admin.contents.update', $content->id)}}" method="post">
+        <form action="{{route('admin.contents.update', $content->id)}}" method="post" enctype="multipart/form-data">
         @csrf
         @method('PUT')
         <div class="form-group">
         <label for="name">name</label>
         <input type="text" class="form-control" name="name" id="name" aria-describedby="nameHelperr" placeholder="Add a name" value="{{$content->name}}">
         <small id="titleHelperr" class="form-text text-muted">Type a title for the post, max 255 characters</small>
-        </div>  
+        </div>
+        
+        <div class="form-group">
+            <img src="{{asset('storage/' . $content->image)}}" alt="">
+            <input type="file" name="image" id="image">
+            <small id="titleHelperr" class="form-text text-muted">Select an image</small>
+        </div>
+        @error('image')
+        <div class="alert alert-danger">{{ $message }}</div>
+        @enderror 
 
         <div class="form-group">
             <label for="description">Description</label>
