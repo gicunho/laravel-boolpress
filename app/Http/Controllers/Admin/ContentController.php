@@ -5,6 +5,7 @@ namespace App\Http\Controllers\Admin;
 use App\Http\Controllers\Controller;
 use App\Content;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Storage;
 
 class ContentController extends Controller
 {
@@ -40,8 +41,11 @@ class ContentController extends Controller
     {
         $validatedData = $request->validate([
             'name' => 'required | max:255 | min:5',
-            'description' => '',
+            'description' => 'required',
+            'image' => 'nullable | image | max:500'
         ]);
+        $file_path = Storage::put('content_images', $validatedData['image']);
+        $validatedData['image'] = $file_path;
         Content::create($validatedData);
         return redirect()->route('admin.contents.index');
 
@@ -81,8 +85,15 @@ class ContentController extends Controller
     {
         $validatedData = $request->validate([
             'name' => 'required | max:255 | min:5',
-            'description' => '',
+            'description' => 'required',
+            'image' => 'nullable | image | max:500'
         ]);
+        if(array_key_exists('image', $validatedData)) {
+            Storage::delete($validatedData['image']);
+            $file_path = Storage::put('content_images', $validatedData['image']);
+            $validatedData['image'] = $file_path;
+        }
+        
         $content->update($validatedData);
         return redirect()->route('admin.contents.index');
     }

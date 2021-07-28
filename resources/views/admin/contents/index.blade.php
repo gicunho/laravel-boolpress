@@ -6,6 +6,7 @@
             <thead class="thead-inverse">
                 <tr>
                     <th>ID</th>
+                    <th>Image</th>
                     <th>Name</th>
                     <th>Description</th>
                     <th>Price</th>
@@ -16,6 +17,10 @@
                 @foreach ($contents as $content)
                 <tr>
                     <td>{{$content->id}}</td>
+                    <td>
+                        {{-- {{ddd($content->image)}} --}}
+                        <img width="70" src="{{asset('storage/' . $content->image)}}" alt="">
+                    </td>
                     <td>{{$content->name}}</td>    
                     <td>{{$content->description}}</td>    
                     <td>{{$content->price}}</td>
