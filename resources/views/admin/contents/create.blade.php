@@ -55,6 +55,19 @@
           </select>
         </div>
 
+        <div class="form-group">
+            <label for="tags">Tags</label>
+            <select multiple class="form-control" name="tags[]" id="tags">
+              <option value="" selected >Select a tag</option>
+              @forelse ($tags as $tag)
+              <option value="{{$tag->id}}" {{$content->tags->contains($tag) ? 'selected' : ''}}>{{$tag->name}}</option>
+                  
+              @empty
+                  
+              @endforelse
+            </select>
+        </div>
+
         <button type="submit" class="btn btn-primary">Submit</button>
         </form>
     </div>
