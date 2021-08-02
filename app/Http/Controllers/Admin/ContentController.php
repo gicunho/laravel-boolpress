@@ -5,6 +5,7 @@ namespace App\Http\Controllers\Admin;
 use App\Category;
 use App\Http\Controllers\Controller;
 use App\Content;
+use App\tag;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Storage;
 
@@ -30,7 +31,8 @@ class ContentController extends Controller
     public function create()
     {
         $categories = Category::all();
-        return view('admin.contents.create', compact('categories'));
+        $tags = Tag::all();
+        return view('admin.contents.create', compact('categories', 'tags'));
     }
 
     /**
@@ -45,11 +47,13 @@ class ContentController extends Controller
             'name' => 'required | max:255 | min:5',
             'description' => 'required',
             'image' => 'nullable | image | max:500',
+            'tags' => 'nullable | exists:tags,id',
             'category_id' => 'nullable | exists:categories,id'
         ]);
         $file_path = Storage::put('content_images', $validatedData['image']);
         $validatedData['image'] = $file_path;
-        Content::create($validatedData);
+        $content = Content::create($validatedData);
+        $content->tags()->attach($request->tags);
         return redirect()->route('admin.contents.index');
 
     }
@@ -75,7 +79,9 @@ class ContentController extends Controller
     public function edit(Content $content)
     {
         $categories = Category::all();
-        return view('admin.contents.edit', compact('content', 'categories'));
+        $tags = Tag::all();
+
+        return view('admin.contents.edit', compact('content', 'categories', 'tags'));
     }
 
     /**
@@ -94,7 +100,7 @@ class ContentController extends Controller
             'category_id' => 'nullable | exists:categories,id'
         ]);
         if(array_key_exists('image', $validatedData)) {
-            Storage::delete($validatedData['image']);
+            Storage::delete($content['image']);
             $file_path = Storage::put('content_images', $validatedData['image']);
             $validatedData['image'] = $file_path;
         }
